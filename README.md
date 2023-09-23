@@ -4,7 +4,7 @@
 
 ## Access Java code
 
-[![Directory](https://user-images.githubusercontent.com/62531512/155822554-a1c3ec57-1f3f-440c-8295-465e8f28b4b6.png)]([https://github.com/Lyman-Robotics/FTC-4228-Centerstage/tree/main/TeamCode/src/main/java/org/firstinspires/ftc/teamcode](https://github.com/Lyman-Robotics/FTC-4228-Centerstage/tree/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode))
+[![Directory](https://user-images.githubusercontent.com/62531512/155822554-a1c3ec57-1f3f-440c-8295-465e8f28b4b6.png)](https://github.com/Lyman-Robotics/FTC-4228-Centerstage/tree/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode)
 
 ## Team code key
 
