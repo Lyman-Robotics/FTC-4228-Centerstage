@@ -32,10 +32,7 @@ public class RobotClass extends LinearOpMode {
   public DcMotor FRDrive;
   public DcMotor BLDrive;
   public DcMotor BRDrive;
-  public DcMotor Claw;
-  public DcMotor SlideMotor;
-  public Servo ClawServo;
-  public DigitalChannel SlideTouchSensor;
+
 
   public OpenCvCamera camera;
   public String webcamName = "Webcam 1";
@@ -44,10 +41,6 @@ public class RobotClass extends LinearOpMode {
 
   public float omniRightVal = (float) (Math.PI / 2.0);
   public float omniLeftVal = (float) (3.0 * (Math.PI / 2.0));
-  public double slidePowerUp = 0.4; 
-  public double slidePowerDown = -slidePowerUp;
-  public float servoOpenPos = (float) 0.7477777777;
-  public float servoClosePos = (float) 0.338333333;
 
   public int TickCounts = 1120;
   public double circumference = 3.1415926535 * 3.1496063; // 8cm lappy 10cm scrappy 3.149 is the 8cm to in
@@ -71,25 +64,18 @@ public class RobotClass extends LinearOpMode {
     FRDrive = hwMap.get(DcMotor.class, "FRDrive");
     BLDrive = hwMap.get(DcMotor.class, "BLDrive");
     BRDrive = hwMap.get(DcMotor.class, "BRDrive");
-    Claw = hwMap.get(DcMotor.class, "Claw");
 
-    SlideMotor = hwMap.get(DcMotor.class, "SlideMotor");
-    ClawServo = hwMap.get(Servo.class, "ClawServo");
-    SlideTouchSensor = hwMap.get(DigitalChannel.class, "SlideTouchSensor");
     // ? ServoPlaceholder = hwMap.get(Servo.class, "ServoPlaceholder");
 
-    SlideTouchSensor.setMode(DigitalChannel.Mode.INPUT);
 
     // Make robot drive straight
     BRDrive.setDirection(DcMotor.Direction.REVERSE);
     BLDrive.setDirection(DcMotor.Direction.REVERSE);
-    ClawServo.setDirection(Servo.Direction.REVERSE);
 
     FLDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     FRDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     BLDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     BRDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    SlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -102,37 +88,10 @@ public class RobotClass extends LinearOpMode {
     BRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     // If init servo, set to init position
-    if (initServo) {
-      ClawServo.setPosition(servoOpenPos);
-    }
 
-    int cameraMonitorViewId = hwMap.appContext
-        .getResources()
-        .getIdentifier(
-            "cameraMonitorViewId",
-            "id",
-            hwMap.appContext.getPackageName());
-    camera = OpenCvCameraFactory
-        .getInstance()
-        .createWebcam(
-            hwMap.get(WebcamName.class, webcamName),
-            cameraMonitorViewId);
-    sleeveDetection = new SleeveDetection();
-    camera.setPipeline(sleeveDetection);
 
-    camera.openCameraDeviceAsync(
-        new OpenCvCamera.AsyncCameraOpenListener() {
-          @Override
-          public void onOpened() {
-            camera.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
-          }
+   
 
-          @Override
-          public void onError(int errorCode) {
-          }
-        });
-
-    position = sleeveDetection.getPosition();
   }
 
   public void setToEncoderMode() {
