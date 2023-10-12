@@ -28,7 +28,6 @@ public class Omnidrive extends LinearOpMode {
     boolean clawClosed = false;
     boolean holdingObject = false;
 
-    robot.SlideMotor.setPower(0.4);
 
     // ! Runs until the end of the match after play is pressed
     waitForStart();
@@ -86,22 +85,7 @@ public class Omnidrive extends LinearOpMode {
 
       robot.setDrivePower(FLPower, FRPower, BLPower, BRPower);
 
-      // ** Actual Servo
-      if (gamepad1.x) {
-        // clawClosed = false;
-        robot.Claw.setPower(-0.4);
-      } else if (gamepad1.y) {
-        // clawClosed = true;
-        robot.Claw.setPower(0.4);
-      } else {
-        robot.Claw.setPower(0);
-      }
-      if (holdingObject)
-      {
-        robot.Claw.setPower(-0.4);
-      }
-      robot.ClawServo.setPosition(
-          clawClosed ? robot.servoClosePos : robot.servoOpenPos);
+
 
       //** This is for testing purposes
       // if (gamepad2.x) {
@@ -111,13 +95,7 @@ public class Omnidrive extends LinearOpMode {
       // }
 
       // Slide on gamepad
-      if (gamepad1.a) {
-        robot.SlideMotor.setPower(robot.slidePowerUp);
-      } else if (gamepad1.b && robot.SlideTouchSensor.getState()) {
-        robot.SlideMotor.setPower(robot.slidePowerDown);
-      } else {
-        robot.SlideMotor.setPower(0);
-      }
+
 
       // Show the elapsed game time and wheel power.
       telemetry.addData("Claw Servo Position", robot.ClawServo.getPosition());
