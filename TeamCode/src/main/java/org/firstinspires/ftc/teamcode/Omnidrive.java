@@ -98,16 +98,7 @@ public class Omnidrive extends LinearOpMode {
 
 
       // Show the elapsed game time and wheel power.
-      telemetry.addData("Claw Servo Position", robot.ClawServo.getPosition());
-      telemetry.addData("Slow Mode", slowMode);
-      telemetry.addData(
-          "Slide Touch Sensor",
-          !(robot.SlideTouchSensor.getState()));
-      telemetry.addData("Elapsed Time", robot.timeElapsed.toString());
 
-      telemetry.addData("Front left/Right", "%4.2f, %4.2f", FLPower, FRPower);
-      telemetry.addData("Back  left/Right", "%4.2f, %4.2f", BLPower, BRPower);
-      telemetry.update();
     }
   }
 }

@@ -37,7 +37,6 @@ public class RobotClass extends LinearOpMode {
   public OpenCvCamera camera;
   public String webcamName = "Webcam 1";
   public String position;
-  public SleeveDetection sleeveDetection;
 
   public float omniRightVal = (float) (Math.PI / 2.0);
   public float omniLeftVal = (float) (3.0 * (Math.PI / 2.0));
@@ -207,23 +206,18 @@ public class RobotClass extends LinearOpMode {
         BRDrive.getCurrentPosition() + BRPos);
     runToPos();
     setDrivePower(power, power, power, power);
-    SlideMotor.setPower(slideSpeed);
     while (FLDrive.isBusy() ||
         FRDrive.isBusy() &&
             BLDrive.isBusy()
         ||
         BRDrive.isBusy()) {
       if (timeElapsed.milliseconds() >= startTime + slideTime) {
-        SlideMotor.setPower(0);
       }
     }
-    SlideMotor.setPower(0);
     sleep(20); // for wobble ending porpuses
     stopDrive();
     while (timeElapsed.milliseconds() < startTime + slideTime) {
-      SlideMotor.setPower(slideSpeed);
     }
-    SlideMotor.setPower(0);
   }
 
   // ! DONT TOUCH THIS I NEEDED THIS FOR OPMODE FUNCTIONS
