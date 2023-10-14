@@ -32,6 +32,7 @@ public class RobotClass extends LinearOpMode {
   public DcMotor FRDrive;
   public DcMotor BLDrive;
   public DcMotor BRDrive;
+  public DcMotor intake;
 
 
   public OpenCvCamera camera;
@@ -63,6 +64,7 @@ public class RobotClass extends LinearOpMode {
     FRDrive = hwMap.get(DcMotor.class, "FRDrive");
     BLDrive = hwMap.get(DcMotor.class, "BLDrive");
     BRDrive = hwMap.get(DcMotor.class, "BRDrive");
+    intake = hwMap.get(DcMotor.class, "intake");
 
     // ? ServoPlaceholder = hwMap.get(Servo.class, "ServoPlaceholder");
 
@@ -80,13 +82,14 @@ public class RobotClass extends LinearOpMode {
     FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     BLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     BRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     FLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     BLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     FRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     BRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-    // If init servo, set to init position
+    intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    //    // If init servo, set to init position
 
 
    

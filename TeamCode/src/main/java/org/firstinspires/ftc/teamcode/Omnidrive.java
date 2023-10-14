@@ -37,8 +37,7 @@ public class Omnidrive extends LinearOpMode {
       double max;
 
       vertical = gamepad1.left_stick_y;
-      // horizontal = -gamepad1.left_stick_x; for when we actually have omni
-      horizontal = 0;
+      horizontal = -gamepad1.left_stick_x; //for when we actually have omni
       pivot = -gamepad1.right_stick_x;
 
       if (gamepad1.right_bumper) {
@@ -61,7 +60,12 @@ public class Omnidrive extends LinearOpMode {
       {
         holdingObject = false;
       }
-
+      if (gamepad1.a)
+        robot.intake.setPower(-.5);
+      else if (gamepad1.b)
+        robot.intake.setPower(1);
+      else
+        robot.intake.setPower(0);
 
 
       
