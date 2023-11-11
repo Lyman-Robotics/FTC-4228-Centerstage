@@ -1,27 +1,37 @@
 package org.firstinspires.ftc.teamcode;
 
+// ! Dont touch
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+// ! Hardware
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.Servo;
-// import com.qualcomm.robotcore.hardware.TouchSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-// import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 
+// ! Telemetry
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+
+// ! Computer Vision
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-// import org.firstinspires.ftc.teamcode.common.powerplay.SleeveDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-// import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
-// ! npx prettier --write "TeamCode\src\main\java\org\firstinspires\ftc\teamcode/*.java"
+// ! Important terminal commands
+/* 
+  npx prettier --write "TeamCode\src\main\java\org\firstinspires\ftc\teamcode/*.java"
+  adb connect 192.168.43.1
+  adb tcpip 5555
+  adb disconnect 
+*/
 
 @Autonomous(name = "DONT TOUCH", group = "CLASS")
 @Disabled
@@ -32,8 +42,10 @@ public class RobotClass extends LinearOpMode {
   public DcMotor FRDrive;
   public DcMotor BLDrive;
   public DcMotor BRDrive;
-  public DcMotor intake;
-
+  public DcMotor Intake;
+  public DcMotor SlideRaiser;
+  public DcMotor ArmFlipper;
+  public Servo PixelClaw;
 
   public OpenCvCamera camera;
   public String webcamName = "Webcam 1";
@@ -46,6 +58,10 @@ public class RobotClass extends LinearOpMode {
   public double circumference = 3.1415926535 * 3.1496063; // 8cm lappy 10cm scrappy 3.149 is the 8cm to in
   public double gearReduction = .0833333; // used to be .6 this is probably wrong :(
   public double countsPerInch = (TickCounts * gearReduction) / circumference; // gear reduction is < 1 if geared up
+
+  public double slideSpeedScalar = 0.5;
+  public double closeClawPos = 0;
+  public double openClawPos = 0.02;
 
   HardwareMap hwMap = null;
   public ElapsedTime timeElapsed = new ElapsedTime();
@@ -64,14 +80,15 @@ public class RobotClass extends LinearOpMode {
     FRDrive = hwMap.get(DcMotor.class, "FRDrive");
     BLDrive = hwMap.get(DcMotor.class, "BLDrive");
     BRDrive = hwMap.get(DcMotor.class, "BRDrive");
-    intake = hwMap.get(DcMotor.class, "intake");
-
-    // ? ServoPlaceholder = hwMap.get(Servo.class, "ServoPlaceholder");
-
+    Intake = hwMap.get(DcMotor.class, "Intake");
+    // SlideRaiser = hwMap.get(DcMotor.class, "SlideRaiser");
+    // PixelClaw = hwMap.get(Servo.class, "PixelClaw");
+    // ArmFlipper = hwMap.get(DcMotor.class, "ArmFlipper");
 
     // Make robot drive straight
     BRDrive.setDirection(DcMotor.Direction.REVERSE);
     BLDrive.setDirection(DcMotor.Direction.REVERSE);
+    FRDrive.setDirection(DcMotor.Direction.REVERSE);
 
     FLDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     FRDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -82,18 +99,13 @@ public class RobotClass extends LinearOpMode {
     FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     BLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     BRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    Intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     FLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     BLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     FRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     BRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    //    // If init servo, set to init position
-
-
-   
-
+    Intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
   }
 
   public void setToEncoderMode() {
@@ -170,57 +182,60 @@ public class RobotClass extends LinearOpMode {
   }
 
   public void encoderDrive(
-      double power,
-      int FLPos,
-      int FRPos,
-      int BLPos,
-      int BRPos) {
+    double power,
+    int FLPos,
+    int FRPos,
+    int BLPos,
+    int BRPos
+  ) {
     setPos(
-        FLDrive.getCurrentPosition() + FLPos,
-        FRDrive.getCurrentPosition() + FRPos,
-        BLDrive.getCurrentPosition() + BLPos,
-        BRDrive.getCurrentPosition() + BRPos);
+      FLDrive.getCurrentPosition() + FLPos,
+      FRDrive.getCurrentPosition() + FRPos,
+      BLDrive.getCurrentPosition() + BLPos,
+      BRDrive.getCurrentPosition() + BRPos
+    );
     runToPos();
     setDrivePower(power, power, power, power);
-    while (FLDrive.isBusy() ||
-        FRDrive.isBusy() &&
-            BLDrive.isBusy()
-        ||
-        BRDrive.isBusy()) {
-    }
+    while (
+      FLDrive.isBusy() ||
+      FRDrive.isBusy() &&
+      BLDrive.isBusy() ||
+      BRDrive.isBusy()
+    ) {}
     // sleep(20);
     stopDrive();
     // sleep(25);
   }
 
   public void encoderDrive(
-      double power,
-      int FLPos,
-      int FRPos,
-      int BLPos,
-      int BRPos,
-      double slideSpeed,
-      double slideTime) {
+    double power,
+    int FLPos,
+    int FRPos,
+    int BLPos,
+    int BRPos,
+    double slideSpeed,
+    double slideTime
+  ) {
     double startTime = timeElapsed.milliseconds();
     setPos(
-        FLDrive.getCurrentPosition() + FLPos,
-        FRDrive.getCurrentPosition() + FRPos,
-        BLDrive.getCurrentPosition() + BLPos,
-        BRDrive.getCurrentPosition() + BRPos);
+      FLDrive.getCurrentPosition() + FLPos,
+      FRDrive.getCurrentPosition() + FRPos,
+      BLDrive.getCurrentPosition() + BLPos,
+      BRDrive.getCurrentPosition() + BRPos
+    );
     runToPos();
     setDrivePower(power, power, power, power);
-    while (FLDrive.isBusy() ||
-        FRDrive.isBusy() &&
-            BLDrive.isBusy()
-        ||
-        BRDrive.isBusy()) {
-      if (timeElapsed.milliseconds() >= startTime + slideTime) {
-      }
+    while (
+      FLDrive.isBusy() ||
+      FRDrive.isBusy() &&
+      BLDrive.isBusy() ||
+      BRDrive.isBusy()
+    ) {
+      if (timeElapsed.milliseconds() >= startTime + slideTime) {}
     }
     sleep(20); // for wobble ending porpuses
     stopDrive();
-    while (timeElapsed.milliseconds() < startTime + slideTime) {
-    }
+    while (timeElapsed.milliseconds() < startTime + slideTime) {}
   }
 
   // ! DONT TOUCH THIS I NEEDED THIS FOR OPMODE FUNCTIONS
