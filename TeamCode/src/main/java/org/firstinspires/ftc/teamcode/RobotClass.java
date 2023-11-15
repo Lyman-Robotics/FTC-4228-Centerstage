@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 // ! Hardware
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -60,8 +59,8 @@ public class RobotClass extends LinearOpMode {
   public double countsPerInch = (TickCounts * gearReduction) / circumference; // gear reduction is < 1 if geared up
 
   public double slideSpeedScalar = 0.5;
-  public double closeClawPos = 0;
-  public double openClawPos = 0.02;
+  public double closeClawPos = .45;
+  public double openClawPos = 0.4;
 
   HardwareMap hwMap = null;
   public ElapsedTime timeElapsed = new ElapsedTime();
@@ -81,19 +80,20 @@ public class RobotClass extends LinearOpMode {
     BLDrive = hwMap.get(DcMotor.class, "BLDrive");
     BRDrive = hwMap.get(DcMotor.class, "BRDrive");
     Intake = hwMap.get(DcMotor.class, "Intake");
-    // SlideRaiser = hwMap.get(DcMotor.class, "SlideRaiser");
-    // PixelClaw = hwMap.get(Servo.class, "PixelClaw");
-    // ArmFlipper = hwMap.get(DcMotor.class, "ArmFlipper");
+    SlideRaiser = hwMap.get(DcMotor.class, "SlideRaiser");
+    PixelClaw = hwMap.get(Servo.class, "PixelClaw");
+    ArmFlipper = hwMap.get(DcMotor.class, "ArmFlipper");
 
     // Make robot drive straight
     BRDrive.setDirection(DcMotor.Direction.REVERSE);
     BLDrive.setDirection(DcMotor.Direction.REVERSE);
-    FRDrive.setDirection(DcMotor.Direction.REVERSE);
 
     FLDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     FRDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     BLDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     BRDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    ArmFlipper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
     FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

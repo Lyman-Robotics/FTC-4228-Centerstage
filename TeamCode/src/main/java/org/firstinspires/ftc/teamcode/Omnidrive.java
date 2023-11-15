@@ -24,8 +24,9 @@ public class Omnidrive extends LinearOpMode {
     float vertical;
     float horizontal;
     float pivot;
-    double speedScalar = 0.7;
+    double speedScalar = 1.0;
     boolean slowMode = false;
+    boolean cc = false;
 
     // Season specific variables
     boolean clawClosed = false;
@@ -55,21 +56,29 @@ public class Omnidrive extends LinearOpMode {
         speedScalar = 1;
       }
 
-      // // // Close Claw
-      // // if (gamepad2.dpad_left) {
-      // //   robot.PixelClaw.setPosition(robot.closeClawPos);
-      // // } else if (gamepad2.dpad_right) {
-      // //   robot.PixelClaw.setPosition(robot.openClawPos);
-      // // }
+       // Close Claw
+      //  if (gamepad2.dpad_left)
+      //  {
+      //   cc = true;
+      //  }
+      //  if (gamepad2.dpad_right)
+      //  {
+      //   cc = false;
+      //  }
+      //  if (cc) {
+      //    robot.PixelClaw.setPosition(robot.closeClawPos);
+      //  } else if (!cc) {
+      //    robot.PixelClaw.setPosition(robot.openClawPos);
+      //  }
 
-      // // Arm Flipper
-      // if (gamepad2.dpad_up) {
-      //   robot.ArmFlipper.setPower(0.5);
-      // } else if (gamepad2.dpad_down) {
-      //   robot.ArmFlipper.setPower(-0.5);
-      // } else {
-      //   robot.ArmFlipper.setPower(0);
-      // }
+      // Arm Flipper
+      if (gamepad2.dpad_up) {
+        robot.ArmFlipper.setPower(0.5);
+      } else if (gamepad2.dpad_down) {
+        robot.ArmFlipper.setPower(-0.5);
+      } else {
+        robot.ArmFlipper.setPower(0);
+      }
 
       // // Raise Slides
       // if (gamepad2.right_trigger > 0) {
