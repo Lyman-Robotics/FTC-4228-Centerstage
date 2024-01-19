@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "Omnirive", group = "Driver Controlled")
+@TeleOp(name = "Omnidrive", group = "Driver Controlled")
 public class Omnidrive extends LinearOpMode {
 
   @Override
@@ -26,7 +26,6 @@ public class Omnidrive extends LinearOpMode {
     float pivot;
     double speedScalar = 1.0;
     boolean slowMode = false;
-    boolean cc = false;
 
     // Season specific variables
     boolean clawClosed = false;
@@ -39,7 +38,7 @@ public class Omnidrive extends LinearOpMode {
       double max;
 
       vertical = gamepad1.left_stick_y;
-      horizontal = -gamepad1.left_stick_x; //for when we actually have omni
+      horizontal = -gamepad1.left_stick_x; // for when we actually have omni
       pivot = -gamepad1.right_stick_x;
 
       // Speed Changer
@@ -56,21 +55,6 @@ public class Omnidrive extends LinearOpMode {
         speedScalar = 1;
       }
 
-       // Close Claw
-      //  if (gamepad2.dpad_left)
-      //  {
-      //   cc = true;
-      //  }
-      //  if (gamepad2.dpad_right)
-      //  {
-      //   cc = false;
-      //  }
-      //  if (cc) {
-      //    robot.PixelClaw.setPosition(robot.closeClawPos);
-      //  } else if (!cc) {
-      //    robot.PixelClaw.setPosition(robot.openClawPos);
-      //  }
-
       // Arm Flipper
       if (gamepad2.dpad_up) {
         robot.ArmFlipper.setPower(0.5);
@@ -80,23 +64,40 @@ public class Omnidrive extends LinearOpMode {
         robot.ArmFlipper.setPower(0);
       }
 
-      // // Raise Slides
-      // if (gamepad2.right_trigger > 0) {
-      //   robot.SlideRaiser.setPower(gamepad2.right_trigger * robot.slideSpeedScalar);
-      // } else if (gamepad2.left_trigger > 0) {
-      //   robot.SlideRaiser.setPower(gamepad2.left_trigger * robot.slideSpeedScalar * -1);
-      // } else {
-      //   robot.SlideRaiser.setPower(0);
-      // }
-
       // Intake motor
-      if (gamepad2.a) {
-        robot.Intake.setPower(-0.6);
-      } else if (gamepad2.b) {
+      if (gamepad2.right_trigger > 0) {
+        robot.Intake.setPower(-1);
+      } else if (gamepad2.left_trigger > 0) {
         robot.Intake.setPower(1);
       } else {
         robot.Intake.setPower(0);
       }
+
+      // Arm intake motor
+      if (gamepad2.right_bumper) {
+        robot.ArmIntakeServo.setPower(-1);
+      } else if (gamepad2.left_bumper) {
+        robot.ArmIntakeServo.setPower(1);
+      } else {
+        robot.ArmIntakeServo.setPower(0);
+      }
+
+      // Raise Slides
+      if (gamepad2.a) {
+        robot.SlideRaiser.setPower(1);
+      } else if (gamepad2.b) {
+        robot.SlideRaiser.setPower(-0.6);
+      } else {
+        robot.SlideRaiser.setPower(0);
+      }
+
+      // Airplane Servo
+      if (gamepad2.x) {
+        robot.AirplaneServo.setPosition(0.5);
+      } else if (gamepad2.y) {
+        robot.AirplaneServo.setPosition(0);
+      }
+
       double FRPower = ((-pivot + (vertical - horizontal)) * speedScalar);
       double BRPower = ((-pivot + vertical + horizontal) * speedScalar);
       double FLPower = ((pivot + vertical + horizontal) * speedScalar);
@@ -119,9 +120,9 @@ public class Omnidrive extends LinearOpMode {
 
       // // ? Servo position measurer
       // if (gamepad2.x) {
-      //   robot.PixelClaw.setPosition(robot.PixelClaw.getPosition() + 0.0001);
+      // robot.PixelClaw.setPosition(robot.PixelClaw.getPosition() + 0.0001);
       // } else if (gamepad2.y) {
-      //   robot.PixelClaw.setPosition(robot.PixelClaw.getPosition() - 0.0001);
+      // robot.PixelClaw.setPosition(robot.PixelClaw.getPosition() - 0.0001);
       // }
       // telemetry.addData("Servo Pos", robot.PixelClaw.getPosition());
 
