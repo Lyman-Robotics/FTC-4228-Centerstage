@@ -38,8 +38,8 @@ public class Omnidrive extends LinearOpMode {
       double max;
 
       vertical = gamepad1.left_stick_y;
-      horizontal = -gamepad1.left_stick_x; // for when we actually have omni
-      pivot = -gamepad1.right_stick_x;
+      horizontal = -gamepad1.right_stick_x; // for when we actually have omni
+      pivot = -gamepad1.left_stick_x;
 
       // Speed Changer
       if (gamepad1.right_bumper) {
@@ -56,10 +56,8 @@ public class Omnidrive extends LinearOpMode {
       }
 
       // Arm Flipper
-      if (gamepad2.dpad_up) {
-        robot.ArmFlipper.setPower(0.5);
-      } else if (gamepad2.dpad_down) {
-        robot.ArmFlipper.setPower(-0.5);
+      if (gamepad2.left_stick_y != 0) {
+        robot.ArmFlipper.setPower(gamepad2.left_stick_y);
       } else {
         robot.ArmFlipper.setPower(0);
       }
@@ -86,14 +84,14 @@ public class Omnidrive extends LinearOpMode {
       if (gamepad2.a) {
         robot.SlideRaiser.setPower(1);
       } else if (gamepad2.b) {
-        robot.SlideRaiser.setPower(-0.6);
+        robot.SlideRaiser.setPower(-1);
       } else {
         robot.SlideRaiser.setPower(0);
       }
 
       // Airplane Servo
       if (gamepad2.x) {
-        robot.AirplaneServo.setPosition(0.5);
+        robot.AirplaneServo.setPosition(-0.5);
       } else if (gamepad2.y) {
         robot.AirplaneServo.setPosition(0);
       }
