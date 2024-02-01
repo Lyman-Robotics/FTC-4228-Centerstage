@@ -26,7 +26,8 @@ public class Omnidrive extends LinearOpMode {
     float pivot;
     double speedScalar = 1.0;
     boolean slowMode = false;
-
+    //true- single button false- trigger
+    boolean singleIntakeSelect = false;
     // Season specific variables
     boolean clawClosed = false;
 
@@ -56,9 +57,9 @@ public class Omnidrive extends LinearOpMode {
       }
 
       // Arm Flipper
-      if (gamepad2.left_stick_y != 0) {
+      if (gamepad2.left_stick_y != 0 && !singleIntakeSelect) {
         robot.ArmFlipper.setPower(gamepad2.left_stick_y);
-      } else {
+      } else if (!singleIntakeSelect){
         robot.ArmFlipper.setPower(0);
       }
 
@@ -83,10 +84,13 @@ public class Omnidrive extends LinearOpMode {
       // Raise Slides
       if (gamepad2.a) {
         robot.SlideRaiser.setPower(1);
+        robot.SlideRaiser2.setPower(1);
       } else if (gamepad2.b) {
         robot.SlideRaiser.setPower(-1);
+        robot.SlideRaiser2.setPower(-1);
       } else {
         robot.SlideRaiser.setPower(0);
+        robot.SlideRaiser2.setPower(0);
       }
 
       // Airplane Servo
@@ -94,6 +98,27 @@ public class Omnidrive extends LinearOpMode {
         robot.AirplaneServo.setPosition(-0.5);
       } else if (gamepad2.y) {
         robot.AirplaneServo.setPosition(0);
+      }
+
+      if (gamepad2.start)
+      {
+        robot.ArmFlipper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                singleIntakeSelect = true;
+
+        robot.ArmFlipper.setTargetPosition(-248);
+        robot.ArmFlipper.setPower(1);
+      }
+      if (gamepad2.back)
+      {
+        robot.ArmFlipper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                singleIntakeSelect = true;
+        robot.ArmFlipper.setTargetPosition(0);
+        robot.ArmFlipper.setPower(0.5);
+      }
+      if (gamepad2.dpad_left)
+      {
+        robot.ArmFlipper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        singleIntakeSelect = false;
       }
 
       double FRPower = ((-pivot + (vertical - horizontal)) * speedScalar);
@@ -125,7 +150,11 @@ public class Omnidrive extends LinearOpMode {
       // telemetry.addData("Servo Pos", robot.PixelClaw.getPosition());
 
       // Telemetry
-      telemetry.addData("Status", "Initialized");
+      telemetry.addData(
+        "Hex motor value",
+        robot.ArmFlipper.getCurrentPosition()
+      );
+      telemetry.addData("Slide Value",robot.SlideRaiser.getCurrentPosition());
       telemetry.update();
     }
   }

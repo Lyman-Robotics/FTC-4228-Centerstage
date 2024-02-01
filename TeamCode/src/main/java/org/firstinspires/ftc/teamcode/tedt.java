@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -36,9 +36,9 @@ public class tedt extends LinearOpMode {
     robot.timeElapsed.reset();
 
     while (opModeIsActive()) {
-      robot.setDrivePower(-.5,-.5,-.5,-.5);
+      robot.setDrivePower(-.5, -.5, -.5, -.5);
       sleep(1000);
-      robot.setDrivePower(0,0,0,0);
+      robot.setDrivePower(0, 0, 0, 0);
       sleep(9999999);
     }
   }
