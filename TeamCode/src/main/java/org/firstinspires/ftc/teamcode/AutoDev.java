@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "Omnidrive", group = "Driver Controlled")
-public class Omnidrive extends LinearOpMode {
+@TeleOp(name = "hi", group = "Driver Controlled")
+public class AutoDev extends LinearOpMode {
 
   @Override
   public void runOpMode() {
@@ -100,10 +100,26 @@ public class Omnidrive extends LinearOpMode {
         robot.AirplaneServo.setPosition(0);
       }
 
+      if (gamepad1.x) {
+        robot.FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.BLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.BRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.BRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.FLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.BLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.FRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+      }
+      if (gamepad1.y) {
+        robot.BRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.FLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.BLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.FRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+      }
+
       if (gamepad2.start) {
         robot.ArmFlipper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         singleIntakeSelect = true;
-
         robot.ArmFlipper.setTargetPosition(-250);
         robot.ArmFlipper.setPower(0.2);
 
@@ -147,11 +163,17 @@ public class Omnidrive extends LinearOpMode {
       // }
       // telemetry.addData("Servo Pos", robot.PixelClaw.getPosition());
 
-      // Telemetry
+      //
+      telemetry.addData("DO NOT", "PRESS Y");
       telemetry.addData(
           "Hex motor value",
           robot.ArmFlipper.getCurrentPosition());
       telemetry.addData("Slide Value", robot.SlideRaiser.getCurrentPosition());
+      telemetry.addData("Front Left", robot.FLDrive.getCurrentPosition());
+      telemetry.addData("Front Right", robot.FRDrive.getCurrentPosition());
+      telemetry.addData("Back Left", robot.BLDrive.getCurrentPosition());
+      telemetry.addData("Back Right", robot.BRDrive.getCurrentPosition());
+
       telemetry.update();
     }
   }

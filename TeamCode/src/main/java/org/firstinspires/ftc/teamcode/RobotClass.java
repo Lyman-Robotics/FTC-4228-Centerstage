@@ -93,6 +93,7 @@ public class RobotClass extends LinearOpMode {
     BRDrive.setDirection(DcMotor.Direction.REVERSE);
     BLDrive.setDirection(DcMotor.Direction.REVERSE);
     FLDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+    SlideRaiser2.setDirection(DcMotor.Direction.REVERSE);
 
     FLDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     FRDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -115,37 +116,32 @@ public class RobotClass extends LinearOpMode {
     Intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     ArmFlipper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-
     // ! Computer Vision
     int cameraMonitorViewId = hwMap.appContext
-      .getResources()
-      .getIdentifier(
-        "cameraMonitorViewId",
-        "id",
-        hwMap.appContext.getPackageName()
-      );
-    camera =
-      OpenCvCameraFactory
+        .getResources()
+        .getIdentifier(
+            "cameraMonitorViewId",
+            "id",
+            hwMap.appContext.getPackageName());
+    camera = OpenCvCameraFactory
         .getInstance()
         .createWebcam(
-          hwMap.get(WebcamName.class, webcamName),
-          cameraMonitorViewId
-        );
+            hwMap.get(WebcamName.class, webcamName),
+            cameraMonitorViewId);
     sleeveDetection = new SleeveDetection();
-    
 
     camera.openCameraDeviceAsync(
-      new OpenCvCamera.AsyncCameraOpenListener() {
-        @Override
-        public void onOpened() {
-          camera.startStreaming(320, 240, OpenCvCameraRotation.UPSIDE_DOWN);
-        }
+        new OpenCvCamera.AsyncCameraOpenListener() {
+          @Override
+          public void onOpened() {
+            camera.startStreaming(320, 240, OpenCvCameraRotation.UPSIDE_DOWN);
+          }
 
-        @Override
-        public void onError(int errorCode) {}
-      }
-    );
-  camera.setPipeline(sleeveDetection);
+          @Override
+          public void onError(int errorCode) {
+          }
+        });
+    camera.setPipeline(sleeveDetection);
     position = sleeveDetection.getPosition();
   }
 
@@ -222,60 +218,57 @@ public class RobotClass extends LinearOpMode {
   }
 
   public void encoderDrive(
-    double power,
-    int FLPos,
-    int FRPos,
-    int BLPos,
-    int BRPos
-  ) {
+      double power,
+      int FLPos,
+      int FRPos,
+      int BLPos,
+      int BRPos) {
     setPos(
-      FLDrive.getCurrentPosition() + FLPos,
-      FRDrive.getCurrentPosition() + FRPos,
-      BLDrive.getCurrentPosition() + BLPos,
-      BRDrive.getCurrentPosition() + BRPos
-    );
+        FLDrive.getCurrentPosition() + FLPos,
+        FRDrive.getCurrentPosition() + FRPos,
+        BLDrive.getCurrentPosition() + BLPos,
+        BRDrive.getCurrentPosition() + BRPos);
     runToPos();
     setDrivePower(power, power, power, power);
-    while (
-      FLDrive.isBusy() ||
-      FRDrive.isBusy() &&
-      BLDrive.isBusy() ||
-      BRDrive.isBusy()
-    ) {}
+    while (FLDrive.isBusy() ||
+        FRDrive.isBusy() &&
+            BLDrive.isBusy()
+        ||
+        BRDrive.isBusy()) {
+    }
     // sleep(20);
     stopDrive();
     // sleep(25);
   }
 
   public void encoderDrive(
-    double power,
-    int FLPos,
-    int FRPos,
-    int BLPos,
-    int BRPos,
-    double slideSpeed,
-    double slideTime
-  ) {
+      double power,
+      int FLPos,
+      int FRPos,
+      int BLPos,
+      int BRPos,
+      double slideSpeed,
+      double slideTime) {
     double startTime = timeElapsed.milliseconds();
     setPos(
-      FLDrive.getCurrentPosition() + FLPos,
-      FRDrive.getCurrentPosition() + FRPos,
-      BLDrive.getCurrentPosition() + BLPos,
-      BRDrive.getCurrentPosition() + BRPos
-    );
+        FLDrive.getCurrentPosition() + FLPos,
+        FRDrive.getCurrentPosition() + FRPos,
+        BLDrive.getCurrentPosition() + BLPos,
+        BRDrive.getCurrentPosition() + BRPos);
     runToPos();
     setDrivePower(power, power, power, power);
-    while (
-      FLDrive.isBusy() ||
-      FRDrive.isBusy() &&
-      BLDrive.isBusy() ||
-      BRDrive.isBusy()
-    ) {
-      if (timeElapsed.milliseconds() >= startTime + slideTime) {}
+    while (FLDrive.isBusy() ||
+        FRDrive.isBusy() &&
+            BLDrive.isBusy()
+        ||
+        BRDrive.isBusy()) {
+      if (timeElapsed.milliseconds() >= startTime + slideTime) {
+      }
     }
     sleep(20); // for wobble ending porpuses
     stopDrive();
-    while (timeElapsed.milliseconds() < startTime + slideTime) {}
+    while (timeElapsed.milliseconds() < startTime + slideTime) {
+    }
   }
 
   // ! DONT TOUCH THIS I NEEDED THIS FOR OPMODE FUNCTIONS
