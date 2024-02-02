@@ -19,8 +19,8 @@ public class SleeveDetection extends OpenCvPipeline {
 
   // TOPLEFT anchor point for the bounding box
   private static Point SLEEVE_TOPLEFT_ANCHOR_POINT1 = new Point(0, 0);
-  private static Point SLEEVE_TOPLEFT_ANCHOR_POINT2 = new Point(0, 0);
-  private static Point SLEEVE_TOPLEFT_ANCHOR_POINT3 = new Point(0, 0);
+  private static Point SLEEVE_TOPLEFT_ANCHOR_POINT2 = new Point(100, 0);
+  private static Point SLEEVE_TOPLEFT_ANCHOR_POINT3 = new Point(200, 0);
 
   // Width and height for the bounding box
   public static int REGION_WIDTH = 30;
@@ -28,40 +28,33 @@ public class SleeveDetection extends OpenCvPipeline {
 
   // Color definitions
   private final Scalar CYAN = new Scalar(
-    0,
-    255,
-    255
-  );
+      0,
+      255,
+      255);
 
   // Anchor point definitions LEFT
   Point sleeve_pointA = new Point(
-    SLEEVE_TOPLEFT_ANCHOR_POINT1.x,
-    SLEEVE_TOPLEFT_ANCHOR_POINT1.y
-  );
+      SLEEVE_TOPLEFT_ANCHOR_POINT1.x,
+      SLEEVE_TOPLEFT_ANCHOR_POINT1.y);
   Point sleeve_pointB = new Point(
-    SLEEVE_TOPLEFT_ANCHOR_POINT1.x + REGION_WIDTH,
-    SLEEVE_TOPLEFT_ANCHOR_POINT1.y + REGION_HEIGHT
-  );
+      SLEEVE_TOPLEFT_ANCHOR_POINT1.x + REGION_WIDTH,
+      SLEEVE_TOPLEFT_ANCHOR_POINT1.y + REGION_HEIGHT);
 
   // Anchor point definitions MIDDLE
   Point sleeve_pointC = new Point(
-    SLEEVE_TOPLEFT_ANCHOR_POINT2.x,
-    SLEEVE_TOPLEFT_ANCHOR_POINT2.y
-  );
+      SLEEVE_TOPLEFT_ANCHOR_POINT2.x,
+      SLEEVE_TOPLEFT_ANCHOR_POINT2.y);
   Point sleeve_pointD = new Point(
-    SLEEVE_TOPLEFT_ANCHOR_POINT2.x + REGION_WIDTH,
-    SLEEVE_TOPLEFT_ANCHOR_POINT2.y + REGION_HEIGHT
-  );
+      SLEEVE_TOPLEFT_ANCHOR_POINT2.x + REGION_WIDTH,
+      SLEEVE_TOPLEFT_ANCHOR_POINT2.y + REGION_HEIGHT);
 
   // Anchor point definitions RIGHT
   Point sleeve_pointE = new Point(
-    SLEEVE_TOPLEFT_ANCHOR_POINT3.x,
-    SLEEVE_TOPLEFT_ANCHOR_POINT3.y
-  );
+      SLEEVE_TOPLEFT_ANCHOR_POINT3.x,
+      SLEEVE_TOPLEFT_ANCHOR_POINT3.y);
   Point sleeve_pointF = new Point(
-    SLEEVE_TOPLEFT_ANCHOR_POINT3.x + REGION_WIDTH,
-    SLEEVE_TOPLEFT_ANCHOR_POINT3.y + REGION_HEIGHT
-  );
+      SLEEVE_TOPLEFT_ANCHOR_POINT3.x + REGION_WIDTH,
+      SLEEVE_TOPLEFT_ANCHOR_POINT3.y + REGION_HEIGHT);
 
   // Running variable storing the parking position
   private String position = "Left";

@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "hi", group = "Driver Controlled")
+@TeleOp(name = "AutoDevelopmentttttttttttttttttttttttttt", group = "Driver Controlled")
 public class AutoDev extends LinearOpMode {
 
   @Override
