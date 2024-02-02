@@ -105,15 +105,16 @@ public class Omnidrive extends LinearOpMode {
         robot.ArmFlipper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 singleIntakeSelect = true;
 
-        robot.ArmFlipper.setTargetPosition(-248);
-        robot.ArmFlipper.setPower(1);
+        robot.ArmFlipper.setTargetPosition(-100);        
+        robot.ArmFlipper.setPower(0.2);
+        
       }
       if (gamepad2.back)
       {
         robot.ArmFlipper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 singleIntakeSelect = true;
         robot.ArmFlipper.setTargetPosition(0);
-        robot.ArmFlipper.setPower(0.5);
+        robot.ArmFlipper.setPower(0.2);
       }
       if (gamepad2.dpad_left)
       {
