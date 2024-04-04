@@ -11,9 +11,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 // import org.openftc.easyopencv.OpenCvCameraFactory;
 // import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@Autonomous(name = "Red Right Power", group = "Autonomous")
+@Autonomous(name = "NOT Board-Side", group = "Autonomous")
 // @Disabled
-public class RedRightPower extends LinearOpMode {
+public class NoBoard extends LinearOpMode {
 
   @Override
   public void runOpMode() {
@@ -24,10 +24,10 @@ public class RedRightPower extends LinearOpMode {
     telemetry.addData("Status", "Initialized");
     telemetry.update();
 
-
     while (!isStarted()) {
       telemetry.addData("Position", robot.sleeveDetection.getPosition());
       telemetry.addData("PRELOAD PIXEL", "PRELOAD IT DUMBASS");
+      robot.isBlueSide = false;
       telemetry.update();
       robot.position = robot.sleeveDetection.getPosition();
     }
@@ -37,6 +37,23 @@ public class RedRightPower extends LinearOpMode {
     robot.timeElapsed.reset();
 
     while (opModeIsActive()) {
+      robot.ArmFlipper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+      robot.resetDrive();
+
+      if (robot.position.equals("Left")) {
+        robot.encoderDrive(0.4, -983, -635, -918, -1016);
+        robot.encoderDrive(0.4, 300, 300, 300, 300);
+
+      } else if (robot.position.equals("Middle")) {
+        robot.encoderDrive(0.4, -983, -635, -918, -1016);
+        robot.encoderDrive(0.4, 300, 300, 300, 300);
+      } else {
+        robot.encoderDrive(0.4, -983, -635, -918, -1016);
+        robot.encoderDrive(0.4, 300, 300, 300, 300);
+      }
+
+      sleep(9999999);
       // ! New Stuff
     }
   }

@@ -65,6 +65,8 @@ public class RobotClass extends LinearOpMode {
   public double closeClawPos = .45;
   public double openClawPos = 0.4;
 
+  public boolean isBlueSide = false;
+
   HardwareMap hwMap = null;
   public ElapsedTime timeElapsed = new ElapsedTime();
 
@@ -236,7 +238,7 @@ public class RobotClass extends LinearOpMode {
         ||
         BRDrive.isBusy()) {
     }
-    // sleep(20);
+    sleep(20);
     stopDrive();
     // sleep(25);
   }

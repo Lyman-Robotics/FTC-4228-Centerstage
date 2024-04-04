@@ -48,7 +48,7 @@ public class AutoDev extends LinearOpMode {
       } else if (gamepad1.left_bumper) {
         slowMode = false;
       } else {
-        speedScalar = slowMode ? 0.5 : 1; // used to be .5 for fast and before that .65
+        speedScalar = slowMode ? 0.3 : 1; // used to be .5 for fast and before that .65
       }
 
       // Emergency speed mode
@@ -93,13 +93,6 @@ public class AutoDev extends LinearOpMode {
         robot.SlideRaiser2.setPower(0);
       }
 
-      // Airplane Servo
-      if (gamepad2.x) {
-        robot.AirplaneServo.setPosition(-0.5);
-      } else if (gamepad2.y) {
-        robot.AirplaneServo.setPosition(0);
-      }
-
       if (gamepad1.x) {
         robot.FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -117,17 +110,17 @@ public class AutoDev extends LinearOpMode {
         robot.FRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
       }
 
-      if (gamepad2.start) {
+      if (gamepad2.dpad_right) {
+        robot.ArmFlipper.setTargetPosition(-250);
         robot.ArmFlipper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         singleIntakeSelect = true;
-        robot.ArmFlipper.setTargetPosition(-250);
         robot.ArmFlipper.setPower(0.2);
 
       }
       if (gamepad2.back) {
+        robot.ArmFlipper.setTargetPosition(0);
         robot.ArmFlipper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         singleIntakeSelect = true;
-        robot.ArmFlipper.setTargetPosition(0);
         robot.ArmFlipper.setPower(0.2);
       }
       if (gamepad2.dpad_left) {
@@ -169,6 +162,8 @@ public class AutoDev extends LinearOpMode {
           "Hex motor value",
           robot.ArmFlipper.getCurrentPosition());
       telemetry.addData("Slide Value", robot.SlideRaiser.getCurrentPosition());
+      telemetry.addData("Slide 2 Value", robot.SlideRaiser2.getCurrentPosition());
+
       telemetry.addData("Front Left", robot.FLDrive.getCurrentPosition());
       telemetry.addData("Front Right", robot.FRDrive.getCurrentPosition());
       telemetry.addData("Back Left", robot.BLDrive.getCurrentPosition());

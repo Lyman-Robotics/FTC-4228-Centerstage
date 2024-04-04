@@ -37,7 +37,9 @@ public class tedt extends LinearOpMode {
 
     while (opModeIsActive()) {
       robot.setDrivePower(-.5, -.5, -.5, -.5);
-      sleep(1000);
+      sleep(2000);
+      robot.setDrivePower(.2, .2, .2, .2);
+      sleep(175);
       robot.setDrivePower(0, 0, 0, 0);
       sleep(9999999);
     }

@@ -94,26 +94,26 @@ public class Omnidrive extends LinearOpMode {
       }
 
       // Airplane Servo
-      if (gamepad2.x) {
+      if (gamepad1.x) {
         robot.AirplaneServo.setPosition(-0.5);
-      } else if (gamepad2.y) {
+      } else if (gamepad1.y) {
         robot.AirplaneServo.setPosition(0);
       }
 
-      if (gamepad2.start) {
-        robot.ArmFlipper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        singleIntakeSelect = true;
+      // if (gamepad2.start) {
+      // robot.ArmFlipper.setTargetPosition(-250);
+      // robot.ArmFlipper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+      // singleIntakeSelect = true;
+      // robot.ArmFlipper.setPower(0.2);
 
-        robot.ArmFlipper.setTargetPosition(-250);
-        robot.ArmFlipper.setPower(0.2);
+      // }
+      // if (gamepad2.back) {
+      // robot.ArmFlipper.setTargetPosition(0);
+      // robot.ArmFlipper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+      // singleIntakeSelect = true;
+      // robot.ArmFlipper.setPower(0.2);
+      // }
 
-      }
-      if (gamepad2.back) {
-        robot.ArmFlipper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        singleIntakeSelect = true;
-        robot.ArmFlipper.setTargetPosition(0);
-        robot.ArmFlipper.setPower(0.2);
-      }
       if (gamepad2.dpad_left) {
         robot.ArmFlipper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         singleIntakeSelect = false;
