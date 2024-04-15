@@ -39,7 +39,8 @@ public class Omnidrive extends LinearOpMode {
       double max;
 
       vertical = gamepad1.left_stick_y;
-      horizontal = -gamepad1.right_stick_x; // for when we actually have omni
+      // horizontal = -gamepad1.right_stick_x; // for when we actually have omni
+      horizontal = 0;
       pivot = -gamepad1.left_stick_x;
 
       // Speed Changer
@@ -48,57 +49,19 @@ public class Omnidrive extends LinearOpMode {
       } else if (gamepad1.left_bumper) {
         slowMode = false;
       } else {
-        speedScalar = slowMode ? 0.5 : 1; // used to be .5 for fast and before that .65
+        speedScalar = slowMode ? 0.2 : 0.5; // used to be .5 for fast and before that .65
       }
 
       // Emergency speed mode
-      if (gamepad1.left_trigger > 0) {
+      if (gamepad1.dpad_up) {
         speedScalar = 1;
       }
 
       // Arm Flipper
-      if (gamepad2.left_stick_y != 0 && !singleIntakeSelect) {
-        robot.ArmFlipper.setPower(gamepad2.left_stick_y);
-      } else if (!singleIntakeSelect) {
-        robot.ArmFlipper.setPower(0);
-      }
-
-      // Intake motor
-      if (gamepad2.right_trigger > 0) {
-        robot.Intake.setPower(-1);
-      } else if (gamepad2.left_trigger > 0) {
-        robot.Intake.setPower(1);
-      } else {
-        robot.Intake.setPower(0);
-      }
-
-      // Arm intake motor
-      if (gamepad2.right_bumper) {
-        robot.ArmIntakeServo.setPower(-1);
-      } else if (gamepad2.left_bumper) {
-        robot.ArmIntakeServo.setPower(1);
-      } else {
-        robot.ArmIntakeServo.setPower(0);
-      }
 
       // Raise Slides
-      if (gamepad2.a) {
-        robot.SlideRaiser.setPower(1);
-        robot.SlideRaiser2.setPower(1);
-      } else if (gamepad2.b) {
-        robot.SlideRaiser.setPower(-1);
-        robot.SlideRaiser2.setPower(-1);
-      } else {
-        robot.SlideRaiser.setPower(0);
-        robot.SlideRaiser2.setPower(0);
-      }
 
       // Airplane Servo
-      if (gamepad1.x) {
-        robot.AirplaneServo.setPosition(-0.5);
-      } else if (gamepad1.y) {
-        robot.AirplaneServo.setPosition(0);
-      }
 
       // if (gamepad2.start) {
       // robot.ArmFlipper.setTargetPosition(-250);
@@ -139,6 +102,9 @@ public class Omnidrive extends LinearOpMode {
 
       robot.setDrivePower(FLPower, FRPower, BLPower, BRPower);
 
+      robot.ArmFlipper.setPower(gamepad1.right_stick_y * 0.1);
+      robot.Claw.setPower((gamepad1.right_trigger - gamepad1.left_trigger) * 0.1);
+
       // // ? Servo position measurer
       // if (gamepad2.x) {
       // robot.PixelClaw.setPosition(robot.PixelClaw.getPosition() + 0.0001);
@@ -148,11 +114,6 @@ public class Omnidrive extends LinearOpMode {
       // telemetry.addData("Servo Pos", robot.PixelClaw.getPosition());
 
       // Telemetry
-      telemetry.addData(
-          "Hex motor value",
-          robot.ArmFlipper.getCurrentPosition());
-      telemetry.addData("Slide Value", robot.SlideRaiser.getCurrentPosition());
-      telemetry.update();
     }
   }
 }

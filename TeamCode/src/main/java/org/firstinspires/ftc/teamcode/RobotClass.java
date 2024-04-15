@@ -42,16 +42,12 @@ public class RobotClass extends LinearOpMode {
   public DcMotor BLDrive;
   public DcMotor BRDrive;
   public DcMotor Intake;
-  public DcMotor SlideRaiser;
-  public DcMotor SlideRaiser2;
   public DcMotor ArmFlipper;
-  public CRServo ArmIntakeServo;
-  public Servo AirplaneServo;
+  public DcMotor Claw;
 
   public OpenCvCamera camera;
   public String webcamName = "Webcam 1";
   public String position;
-  public SleeveDetection sleeveDetection;
 
   public float omniRightVal = (float) (Math.PI / 2.0);
   public float omniLeftVal = (float) (3.0 * (Math.PI / 2.0));
@@ -84,67 +80,61 @@ public class RobotClass extends LinearOpMode {
     FRDrive = hwMap.get(DcMotor.class, "FRDrive");
     BLDrive = hwMap.get(DcMotor.class, "BLDrive");
     BRDrive = hwMap.get(DcMotor.class, "BRDrive");
-    Intake = hwMap.get(DcMotor.class, "Intake");
-    SlideRaiser = hwMap.get(DcMotor.class, "SlideRaiser");
-    SlideRaiser2 = hwMap.get(DcMotor.class, "SlideRaiser2");
-    ArmIntakeServo = hwMap.get(CRServo.class, "ArmIntakeServo");
-    AirplaneServo = hwMap.get(Servo.class, "AirplaneServo");
     ArmFlipper = hwMap.get(DcMotor.class, "ArmFlipper");
+    Claw = hwMap.get(DcMotor.class, "Claw");
 
     // Make robot drive straight
-    BRDrive.setDirection(DcMotor.Direction.REVERSE);
+    // BRDrive.setDirection(DcMotor.Direction.REVERSE);
     BLDrive.setDirection(DcMotor.Direction.REVERSE);
-    FLDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-    SlideRaiser2.setDirection(DcMotor.Direction.REVERSE);
+    // FLDrive.setDirection(DcMotorSimple.Direction.REVERSE);
 
     FLDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     FRDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     BLDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     BRDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     ArmFlipper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    SlideRaiser.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    SlideRaiser2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    Claw.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     BLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     BRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    Intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    Claw.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     FLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     BLDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     FRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     BRDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    Intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     ArmFlipper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    Claw.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     // ! Computer Vision
-    int cameraMonitorViewId = hwMap.appContext
-        .getResources()
-        .getIdentifier(
-            "cameraMonitorViewId",
-            "id",
-            hwMap.appContext.getPackageName());
-    camera = OpenCvCameraFactory
-        .getInstance()
-        .createWebcam(
-            hwMap.get(WebcamName.class, webcamName),
-            cameraMonitorViewId);
-    sleeveDetection = new SleeveDetection();
+    // int cameraMonitorViewId = hwMap.appContext
+    // .getResources()
+    // .getIdentifier(
+    // "cameraMonitorViewId",
+    // "id",
+    // hwMap.appContext.getPackageName());
+    // camera = OpenCvCameraFactory
+    // .getInstance()
+    // .createWebcam(
+    // hwMap.get(WebcamName.class, webcamName),
+    // cameraMonitorViewId);
+    // sleeveDetection = new SleeveDetection();
 
-    camera.openCameraDeviceAsync(
-        new OpenCvCamera.AsyncCameraOpenListener() {
-          @Override
-          public void onOpened() {
-            camera.startStreaming(320, 240, OpenCvCameraRotation.UPSIDE_DOWN);
-          }
+    // camera.openCameraDeviceAsync(
+    // new OpenCvCamera.AsyncCameraOpenListener() {
+    // @Override
+    // public void onOpened() {
+    // camera.startStreaming(320, 240, OpenCvCameraRotation.UPSIDE_DOWN);
+    // }
 
-          @Override
-          public void onError(int errorCode) {
-          }
-        });
-    camera.setPipeline(sleeveDetection);
-    position = sleeveDetection.getPosition();
+    // // @Override
+    // public void onError(int errorCode) {
+    // }
+    // });
+    // camera.setPipeline(sleeveDetection);
+    // position = sleeveDetection.getPosition();
   }
 
   public void setToEncoderMode() {
