@@ -39,8 +39,7 @@ public class Omnidrive extends LinearOpMode {
       double max;
 
       vertical = gamepad1.left_stick_y;
-      // horizontal = -gamepad1.right_stick_x; // for when we actually have omni
-      horizontal = 0;
+      horizontal = -gamepad1.right_stick_x; // for when we actually have omni
       pivot = -gamepad1.left_stick_x;
 
       // Speed Changer
